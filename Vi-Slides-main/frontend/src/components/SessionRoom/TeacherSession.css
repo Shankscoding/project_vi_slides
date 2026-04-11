@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+.ts-root { display: flex; flex-direction: column; gap: 24px; }
+
+.ts-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ts-stat-card {
+  background: #fff; border: 1px solid #ece9ff; border-radius: 14px;
+  padding: 20px 22px; text-align: center;
+  box-shadow: 0 2px 10px rgba(124,58,237,0.04); transition: box-shadow 0.2s, transform 0.2s;
+}
+.ts-stat-card:hover { box-shadow: 0 4px 18px rgba(124,58,237,0.1); transform: translateY(-2px); }
+.ts-stat-number {
+  font-family: 'Syne', sans-serif; font-size: 1.8rem;
+  font-weight: 800; line-height: 1; margin-bottom: 6px; color: #1a1a2e;
+}
+.ts-stat-number--purple { color: #7c3aed; }
+.ts-stat-number--green  { color: #10b981; }
+.ts-stat-number--amber  { color: #f59e0b; }
+.ts-stat-label {
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: #a8a4c8;
+}
+
+.ts-questions-section h3 {
+  font-family: 'Syne', sans-serif; font-size: 0.97rem; font-weight: 700;
+  color: #1a1a2e; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ts-questions-section h3::before {
+  content: ''; display: inline-block;
+  width: 8px; height: 8px; border-radius: 50%; background: #7c3aed;
+}
+.ts-q-list { display: flex; flex-direction: column; gap: 14px; list-style: none; padding: 0; }
+
+.ts-q-card {
+  background: #fff; border: 1px solid #ece9ff; border-radius: 16px;
+  padding: 20px 22px; box-shadow: 0 2px 10px rgba(124,58,237,0.04); transition: box-shadow 0.2s;
+}
+.ts-q-card:hover { box-shadow: 0 6px 20px rgba(124,58,237,0.1); }
+.ts-q-card--unanswered { border-color: #fde68a; background: #fffdf5; }
+
+.ts-q-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.ts-q-avatar {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.7rem;
+}
+.ts-q-main { flex: 1; }
+.ts-q-text { font-size: 0.95rem; font-weight: 500; color: #1a1a2e; line-height: 1.5; margin-bottom: 3px; }
+.ts-q-by   { font-size: 0.76rem; color: #a8a4c8; }
+
+.ts-badge {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.5px;
+  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+}
+.ts-badge--answered { background: #d1fae5; color: #065f46; }
+.ts-badge--pending  { background: #fef3c7; color: #92400e; }
+
+.ts-answer-block {
+  background: #f3f0ff; border-left: 3px solid #7c3aed;
+  border-radius: 0 10px 10px 0; padding: 12px 16px;
+}
+.ts-answer-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase; color: #7c3aed; margin-bottom: 6px;
+}
+.ts-answer-text { font-size: 0.9rem; color: #3d2e6b; line-height: 1.6; }
+
+.ts-reply-area { display: flex; gap: 10px; align-items: stretch; }
+.ts-reply-input {
+  flex: 1; padding: 11px 15px; border: 1.5px solid #e0dbff; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  color: #1a1a2e; background: #faf9ff; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ts-reply-input:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+.ts-reply-input::placeholder { color: #a8a4c8; }
+.ts-reply-btn {
+  padding: 11px 18px; background: #7c3aed; color: #fff; border: none;
+  border-radius: 10px; font-family: 'DM Sans', sans-serif;
+  font-size: 0.87rem; font-weight: 500; cursor: pointer;
+  transition: background 0.2s, transform 0.15s; white-space: nowrap;
+}
+.ts-reply-btn:hover:not(:disabled) { background: #6d28d9; transform: translateY(-1px); }
+.ts-reply-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.ts-empty {
+  background: #fff; border: 1.5px dashed #e0dbff; border-radius: 13px;
+  padding: 40px 20px; text-align: center; color: #a8a4c8; font-size: 0.9rem;
+}
+.ts-empty__icon { font-size: 1.8rem; margin-bottom: 10px; }
+
+@media (max-width: 560px) {
+  .ts-stats-row { grid-template-columns: repeat(2, 1fr); }
+  .ts-reply-area { flex-direction: column; }
+}

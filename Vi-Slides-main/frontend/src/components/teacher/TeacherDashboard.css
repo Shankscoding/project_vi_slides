@@ -1,0 +1,44 @@
+/* TEACHER DASHBOARD STYLES */
+.td-root { min-height: 100svh; background: var(--bg); font-family: var(--sans); }
+
+/* NAVIGATION */
+.td-nav { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--code-bg); }
+.td-logo { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 700; color: var(--text-h); }
+.td-logo-hex { width: 24px; height: 24px; background: var(--accent); border-radius: 4px; transform: rotate(45deg); }
+.td-nav-right { display: flex; align-items: center; gap: 16px; }
+.td-profile-btn { padding: 8px 16px; font-family: inherit; font-size: 14px; font-weight: 500; color: var(--text); background: transparent; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.td-profile-btn:hover { border-color: var(--accent); color: var(--accent); }
+.td-nav-name { font-size: 14px; font-weight: 600; color: var(--text-h); }
+.td-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+
+/* BODY */
+.td-body { padding: 40px 32px; max-width: 1200px; margin: 0 auto; }
+
+/* GREETING */
+.td-greeting { margin-bottom: 40px; }
+.td-greeting-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--accent); margin: 0 0 8px; }
+.td-greeting h1 { font-size: 32px; font-weight: 800; color: var(--text-h); letter-spacing: -0.8px; margin: 0; }
+.td-greeting h1 span { color: var(--accent); }
+
+/* CREATE SESSION CARD */
+.td-create-card { background: var(--code-bg); border: 1px solid var(--border); border-radius: 16px; padding: 32px; margin-bottom: 40px; }
+.td-create-card h2 { font-size: 20px; font-weight: 700; color: var(--text-h); margin: 0 0 24px; }
+.td-input-row { display: flex; gap: 16px; align-items: center; }
+.td-input { flex: 1; padding: 12px 16px; font-family: inherit; font-size: 15px; color: var(--text-h); background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; outline: none; transition: border-color 0.18s, box-shadow 0.18s; }
+.td-input::placeholder { color: var(--text); opacity: 0.5; }
+.td-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
+.td-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; font-family: inherit; font-size: 15px; font-weight: 600; background: var(--accent); color: #fff; border: 1.5px solid var(--accent); border-radius: 10px; cursor: pointer; transition: all 0.18s; }
+.td-btn-primary:hover:not(:disabled) { opacity: 0.86; transform: translateY(-1px); }
+.td-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* CODE HINT */
+.td-code-hint { margin-top: 16px; font-size: 14px; color: var(--text); }
+.td-code-badge { background: var(--accent-bg); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-family: var(--mono); font-size: 13px; font-weight: 600; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .td-nav { padding: 12px 20px; }
+  .td-body { padding: 24px 20px; }
+  .td-input-row { flex-direction: column; gap: 12px; }
+  .td-btn-primary { width: 100%; }
+}

@@ -1,0 +1,35 @@
+/* SESSION HISTORY STYLES */
+.sh-section { margin-top: 40px; }
+.sh-section h2 { font-size: 20px; font-weight: 700; color: var(--text-h); margin: 0 0 24px; }
+
+/* EMPTY STATE */
+.sh-empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 48px 32px; border: 1px dashed var(--border); border-radius: 16px; background: var(--code-bg); }
+.sh-empty-icon { font-size: 32px; margin-bottom: 16px; opacity: 0.6; }
+.sh-empty p { font-size: 14px; color: var(--text); margin: 0; line-height: 1.5; }
+
+/* GRID */
+.sh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; list-style: none; margin: 0; padding: 0; }
+
+/* CARD */
+.sh-card { background: var(--code-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
+.sh-card:hover { border-color: var(--accent-border); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.sh-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; gap: 12px; }
+.sh-card-title { font-size: 16px; font-weight: 600; color: var(--text-h); line-height: 1.4; flex: 1; }
+.sh-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 8px; border-radius: 6px; }
+.sh-status.live { background: rgba(34, 197, 94, 0.1); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.3); }
+.sh-status.ended { background: rgba(156, 163, 175, 0.1); color: #6b7280; border: 1px solid rgba(156, 163, 175, 0.3); }
+.sh-status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* META */
+.sh-card-meta { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.sh-meta-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); }
+.sh-meta-row svg { opacity: 0.6; flex-shrink: 0; }
+
+/* CODE BADGE */
+.sh-code-badge { display: inline-block; background: var(--accent-bg); color: var(--accent); padding: 6px 10px; border-radius: 8px; font-family: var(--mono); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sh-grid { grid-template-columns: 1fr; }
+  .sh-card-top { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
