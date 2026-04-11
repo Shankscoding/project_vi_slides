@@ -11,20 +11,39 @@ function StudentSession({session, questions,setQuestions}: any) {
 
     const [question,setquestion] = useState("");
 
-    const handleAskQuestion = () => {
-        if(!question.trim()) return;
-        const newQuestion = {
-            text:question,
-            askedBy: currentUser.name,
-            id: Date.now(),
-            answers: []
-        }
+    const handleAskQuestion = async () => {
+  if (!question.trim()) return;
 
-        const updatedQuestions = [...questions, newQuestion];
-        setQuestions(updatedQuestions);
-        setquestion("");
-        
-    }   
+  try {
+    const res = await fetch("http://localhost:5050/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [{ content: question }],
+      }),
+    });
+
+    const data = await res.json();
+    const aiAnswer = data.choices[0].message.content;
+
+    const newQuestion = {
+      text: question,
+      askedBy: currentUser.name,
+      id: Date.now(),
+      answers: [aiAnswer], 
+    };
+
+    const updatedQuestions = [...questions, newQuestion];
+    setQuestions(updatedQuestions);
+
+    setquestion("");
+
+  } catch (err) {
+    console.error("Error:", err);
+  }
+};
     const time= new Date().toLocaleTimeString();
     return (
         <div className="panel stack">
