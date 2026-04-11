@@ -12,6 +12,8 @@ function TeacherDashboard() {
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [title, setTitle] = useState("");
+  const [liveParticipants, setLiveParticipants] = useState(0);
+  const [enrolledParticipants, setEnrolledParticipants] = useState(0);
 
     useEffect(() => {
         const user = JSON.parse(sessionStorage.getItem("currentUser") || "null") as User | null;
@@ -22,12 +24,62 @@ function TeacherDashboard() {
         }
     }, [navigate]);
 
+    useEffect(() => {
+      const loadParticipants = () => {
+        const user = JSON.parse(sessionStorage.getItem("currentUser") || "null") as User | null;
+        if (!user || user.role !== "teacher") {
+          return;
+        }
+
+        const allSessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+        const teacherSessions = allSessions.filter((s: any) => s.teacherEmail === user.email);
+        const totalLiveParticipants = teacherSessions.reduce((sum: number, s: any) => {
+          const live = Array.isArray(s.liveParticipants)
+            ? s.liveParticipants.length
+            : Array.isArray(s.participants)
+            ? s.participants.length
+            : 0;
+          return sum + live;
+        }, 0);
+
+        const totalEnrolledParticipants = teacherSessions.reduce((sum: number, s: any) => {
+          const enrolled = Array.isArray(s.enrolledParticipants)
+            ? s.enrolledParticipants.length
+            : Array.isArray(s.participants)
+            ? s.participants.length
+            : 0;
+          return sum + enrolled;
+        }, 0);
+
+        setLiveParticipants(totalLiveParticipants);
+        setEnrolledParticipants(totalEnrolledParticipants);
+      };
+
+      loadParticipants();
+
+      const handleStorage = (event: StorageEvent) => {
+        if (event.key === "sessions") {
+          loadParticipants();
+        }
+      };
+
+      window.addEventListener("sessionsUpdated", loadParticipants);
+      window.addEventListener("storage", handleStorage);
+
+      return () => {
+        window.removeEventListener("sessionsUpdated", loadParticipants);
+        window.removeEventListener("storage", handleStorage);
+      };
+    }, []);
+
     const generateCode = () => {
       return Math.random().toString(36).substring(2, 8).toUpperCase();
     }
 
     const handleCreateSession = () => {
-      if(!title) {
+      const cleanTitle = title.trim();
+
+      if(!cleanTitle) {
         alert("Please enter a title for the session");
         return;
       }
@@ -41,12 +93,13 @@ function TeacherDashboard() {
 
       const newSession = {
         id:code,
-        title,
+        title: cleanTitle,
         teacher: currentUser?.name,
         teacherEmail: currentUser?.email,
         status:"live",
         createdAt: new Date().toISOString(),
-        participants: []
+        enrolledParticipants: [],
+        liveParticipants: []
       };
       session.push(newSession);
       localStorage.setItem("sessions", JSON.stringify(session));
@@ -64,10 +117,13 @@ function TeacherDashboard() {
         <div className="page">
           <h1 className="page-title">Teacher Dashboard</h1>
           <h2 className="page-subtitle">Welcome, {currentUser?.name}</h2>
+          <h3 className="page-subtitle">Total Enrolled Participants: {enrolledParticipants}</h3>
+          <h3 className="page-subtitle">Live Joined Participants: {liveParticipants}</h3>
 
           <div className="panel stack">
             <input type="text" placeholder="Session Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <button onClick={handleCreateSession}>Create Session</button>
+            <button onClick={() => navigate("/profile")}>View Profile</button>
             
           </div>
 

@@ -1,5 +1,5 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 interface User {
     name: string;
@@ -7,7 +7,7 @@ interface User {
     role: "student" | "teacher";
 }
 
-function SessionHistory() {
+function StudentHistory() {
     const navigate = useNavigate();
     const [sessions, setSessions] = useState<any[]>([]);
 
@@ -17,7 +17,7 @@ function SessionHistory() {
                 sessionStorage.getItem("currentUser") || "null"
             );
 
-            if (!user || user.role !== "teacher") {
+            if (!user || user.role !== "student") {
                 navigate("/login", { replace: true });
                 return;
             }
@@ -26,14 +26,24 @@ function SessionHistory() {
                 localStorage.getItem("sessions") || "[]"
             );
 
-            const teacherSessions = allSessions.filter(
-                (s: any) => s.teacherEmail === user.email
-            );
+            const studentSessions = allSessions.filter((s: any) => {
+                const enrolledParticipants = Array.isArray(s.enrolledParticipants)
+                    ? s.enrolledParticipants
+                    : Array.isArray(s.participants)
+                    ? s.participants
+                    : [];
+                return enrolledParticipants.includes(user.email);
+            });
 
-            setSessions(teacherSessions);
+            studentSessions.sort((a: any, b: any) => {
+                return new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime();
+            });
+
+            setSessions(studentSessions);
         };
 
         loadSessions();
+
         const handleStorage = (event: StorageEvent) => {
             if (event.key === "sessions") {
                 loadSessions();
@@ -54,7 +64,7 @@ function SessionHistory() {
             <h2 className="panel-title">Your Session History</h2>
 
             {sessions.length === 0 ? (
-                <p className="muted">You have not created any sessions yet.</p>
+                <p className="muted">You have not joined any sessions yet.</p>
             ) : (
                 <ul className="list">
                     {sessions.map((session) => (
@@ -63,16 +73,11 @@ function SessionHistory() {
                             <br />
                             Code: <b>{session.id}</b>
                             <br />
-                            Created on{" "}
-                            {new Date(session.createdAt).toLocaleString()}
+                            Teacher: {session.teacher}
+                            <br />
+                            Created on {new Date(session.createdAt).toLocaleString()}
                             <br />
                             Status: {session.status}
-                            <br />
-                            Total Enrolled: {Array.isArray(session.enrolledParticipants)
-                                ? session.enrolledParticipants.length
-                                : Array.isArray(session.participants)
-                                ? session.participants.length
-                                : 0}
                             <br />
                             Live Joined: {Array.isArray(session.liveParticipants)
                                 ? session.liveParticipants.length
@@ -80,11 +85,8 @@ function SessionHistory() {
                                 ? session.participants.length
                                 : 0}
                             <br />
-
                             <button
-                                onClick={() =>
-                                    navigate(`/session/${session.id}`)
-                                }
+                                onClick={() => navigate(`/session/${session.id}`)}
                                 disabled={session.status === "ended"}
                             >
                                 {session.status === "ended" ? "Session Ended" : "Join Session"}
@@ -97,4 +99,4 @@ function SessionHistory() {
     );
 }
 
-export default SessionHistory;
+export default StudentHistory;

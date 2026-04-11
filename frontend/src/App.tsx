@@ -7,7 +7,7 @@ const Login=lazy(()=>import("./components/Login"));
 const SignUp=lazy(()=>import("./components/SignUp"));
 const StudentDashboard=lazy(()=>import("./components/student/StudentDashboard"));
 const TeacherDashboard=lazy(()=>import("./components/teacher/TeacherDashboard"));
-const StudentProfile=lazy(()=>import("./components/student/StudentProfile"));
+const Profile=lazy(()=>import("./components/Profile"));
 const Room=lazy(()=>import("./components/SessionRoom/Room"));
 
 //later we have to add auth and role based routing
@@ -25,7 +25,7 @@ function App(){
           <Route path="/signup" element={<SignUp />} />
           <Route path="/student" element={<StudentDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
-          <Route path="/profile" element={<StudentProfile />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/session/:sessionId" element={<Room />} />
           
         </Routes>

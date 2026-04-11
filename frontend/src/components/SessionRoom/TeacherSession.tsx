@@ -1,16 +1,54 @@
 import { Navigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 function TeacherSession({ session, questions, setQuestions }: any) {
     const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+    const navigate = useNavigate();
     if (!currentUser || currentUser.role !== "teacher") {
         return <Navigate to="/login" />;
     }
 
 
-    const totalParticipants = session.participants ? session.participants.length : 0;
+    const totalEnrolledParticipants = Array.isArray(session.enrolledParticipants)
+        ? session.enrolledParticipants.length
+        : Array.isArray(session.participants)
+        ? session.participants.length
+        : 0;
+
+    const liveJoinedParticipants = Array.isArray(session.liveParticipants)
+        ? session.liveParticipants.length
+        : Array.isArray(session.participants)
+        ? session.participants.length
+        : 0;
+
 
     const [reply, setReply] = useState<{[key: number]: string}>({});
+
+    const handleEndSession = () => {
+        const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+        const updatedSessions = sessions.map((s: any) => {
+            if (String(s.id) !== String(session.id)) {
+                return s;
+            }
+
+            return {
+                ...s,
+                status: "ended",
+                liveParticipants: []
+            };
+        });
+
+        localStorage.setItem("sessions", JSON.stringify(updatedSessions));
+        window.dispatchEvent(new Event("sessionsUpdated"));
+        navigate("/teacher");
+    };
+
+    const handleBackToDashboard = () => {
+        navigate("/teacher");
+    };
 
     const handlereply=(id:number)=>{
         if(!reply[id]?.trim()) {
@@ -27,12 +65,18 @@ function TeacherSession({ session, questions, setQuestions }: any) {
         setQuestions(updatedQuestions);
         setReply((prev) => ({ ...prev, [id]: "" }));
     }   
-
+    const hour = new Date().getHours();
     return (
         <div className="panel stack">
+            <h2>Good {hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening"}, {currentUser.name}</h2>
             <h2>Teacher Session</h2>
             <h2>Room ID: {session.id}</h2>
-            <h3>Total Participants: {totalParticipants}</h3>
+            <h3>Total Enrolled Participants: {totalEnrolledParticipants}</h3>
+            <h3>Live Joined Participants: {liveJoinedParticipants}</h3>
+            <div className="cta-row">
+                <button onClick={handleEndSession}>End Session</button>
+                <button onClick={handleBackToDashboard}>Back to Dashboard</button>
+            </div>
             <h3>Questions:</h3>
             <ul className="list">
                 {questions.map((q: any) => (

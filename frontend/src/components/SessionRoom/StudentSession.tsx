@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function StudentSession({session, questions,setQuestions}: any) {
@@ -7,11 +7,15 @@ function StudentSession({session, questions,setQuestions}: any) {
         return <Navigate to="/login" />;
     }
 
-
+    const navigate = useNavigate();
 
     const [question,setquestion] = useState("");
+    const isSessionEnded = session?.status === "ended";
 
     const handleAskQuestion = () => {
+        if (isSessionEnded) {
+            return;
+        }
         if(!question.trim()) return;
         const newQuestion = {
             text:question,
@@ -25,15 +29,16 @@ function StudentSession({session, questions,setQuestions}: any) {
         setquestion("");
         
     }   
-    const time= new Date().toLocaleTimeString();
+    const hour = new Date().getHours();
     return (
         <div className="panel stack">
-            <h2>Good {time < "12:00:00" ? "Morning" : time < "18:00:00" ? "Afternoon" : "Evening"}, {currentUser.name}</h2>
+            <h2>Good {hour < 12 ? "Morning" : hour < 18 ? "Afternoon" : "Evening"}, {currentUser.name}</h2>
             <h2>Student Session</h2>
             <h3>Room ID: {session.id}</h3>
+            {isSessionEnded && <p className="muted">This session has ended. New questions are disabled.</p>}
             <div className="stack">
                 <input type="text" value={question} onChange={(e) => setquestion(e.target.value)} placeholder="Ask a question..." />
-                <button onClick={handleAskQuestion} disabled={!question.trim()}>Ask Question</button>
+                <button onClick={handleAskQuestion} disabled={!question.trim() || isSessionEnded}>Ask Question</button>
             </div>
             <h3>Questions:</h3>
             <ul className="list">
@@ -51,6 +56,9 @@ function StudentSession({session, questions,setQuestions}: any) {
                     </li>
                 ))}
             </ul>
+            <div>
+                <button onClick={() => navigate("/student")}>Leave Session</button>
+            </div>
         </div>
     );
 }
