@@ -9,6 +9,8 @@ const StudentDashboard=lazy(()=>import("./components/student/StudentDashboard"))
 const TeacherDashboard=lazy(()=>import("./components/teacher/TeacherDashboard"));
 const StudentProfile=lazy(()=>import("./components/student/StudentProfile"));
 const Room=lazy(()=>import("./components/SessionRoom/Room"));
+const Chat = lazy(() => import("./components/chat"));
+
 
 //later we have to add auth and role based routing
 //later we have to prevent the direct access to the dashboard without login and also based on role
@@ -27,7 +29,8 @@ function App(){
           <Route path="/teacher" element={<TeacherDashboard />} />
           <Route path="/profile" element={<StudentProfile />} />
           <Route path="/session/:sessionId" element={<Room />} />
-          
+          <Route path="/chat" element={<Chat />} />
+
         </Routes>
       </Suspense>
 
