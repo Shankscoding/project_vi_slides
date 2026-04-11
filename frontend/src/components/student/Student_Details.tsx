@@ -13,13 +13,13 @@ function Student_Details() {
         return null; // or a loading spinner
     }
     return (
-        <div>
-            <div>
+        <div className="stack">
+            <div className="stack">
                 
 
-                <h2>Total Enrolled Sessions: 5</h2>
+                <h2 className="panel-title">Total Enrolled Sessions: 5</h2>
                 
-                <h2>Notes</h2>
+                <h2 className="panel-title">Notes</h2>
 
             </div>
             <button onClick={() => navigate("/Profile")}>

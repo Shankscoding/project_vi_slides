@@ -50,26 +50,30 @@ function TeacherDashboard() {
       };
       session.push(newSession);
       localStorage.setItem("sessions", JSON.stringify(session));
-      alert(`Session created with code: ${code}`);
+      window.dispatchEvent(new Event("sessionsUpdated"));
+      // alert(`Session created with code: ${code}`);
       setTitle("");
-
 
 
       navigate(`/session/${code}`);
     }
 
-    return(
-        <div>
-          <h1>Teacher Dashboard</h1>
-          <h2>Welcome, {currentUser?.name}</h2>
 
-          <div>
+
+    return(
+        <div className="page">
+          <h1 className="page-title">Teacher Dashboard</h1>
+          <h2 className="page-subtitle">Welcome, {currentUser?.name}</h2>
+
+          <div className="panel stack">
             <input type="text" placeholder="Session Title" value={title} onChange={(e) => setTitle(e.target.value)} />
             <button onClick={handleCreateSession}>Create Session</button>
             
           </div>
 
-          <SessionHistory/>
+          <div className="panel">
+            <SessionHistory/>
+          </div>
         </div>
 
     );

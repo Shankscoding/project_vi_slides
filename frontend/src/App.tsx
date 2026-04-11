@@ -1,4 +1,4 @@
-import { BrowserRouter,Routes,Route } from "react-router-dom";
+import {Routes,Route } from "react-router-dom";
 import {lazy,Suspense} from "react";
 
 //lazy loading the components
@@ -17,7 +17,7 @@ const Room=lazy(()=>import("./components/SessionRoom/Room"));
 
 function App(){
   return (
-    <BrowserRouter>
+    
       <Suspense fallback={<h1>Loading...</h1>}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -27,9 +27,10 @@ function App(){
           <Route path="/teacher" element={<TeacherDashboard />} />
           <Route path="/profile" element={<StudentProfile />} />
           <Route path="/session/:sessionId" element={<Room />} />
+          
         </Routes>
       </Suspense>
-    </BrowserRouter>
+
   )
 }
 export default App;

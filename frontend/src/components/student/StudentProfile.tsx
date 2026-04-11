@@ -16,15 +16,17 @@ function StudentProfile() {
         return null; // or a loading spinner
     }
     return (
-        <div>
-            <h1>Student Profile</h1>
-            <p>Name: {currentUser.name}</p>
-            <p>Email: {currentUser.email}</p>
-            <p>Role: {currentUser.role}</p>
-            <div>
-                <button>Update Profile</button>
+        <div className="page">
+            <h1 className="page-title">Student Profile</h1>
+            <div className="stack">
+                <p>Name: {currentUser.name}</p>
+                <p>Email: {currentUser.email}</p>
+                <p>Role: {currentUser.role}</p>
             </div>
-            <button onClick={handleLogout}>Logout</button>
+            <div className="cta-row" style={{ marginTop: "14px" }}>
+                <button>Update Profile</button>
+                <button onClick={handleLogout}>Logout</button>
+            </div>
         </div>
     );
 }export default StudentProfile;

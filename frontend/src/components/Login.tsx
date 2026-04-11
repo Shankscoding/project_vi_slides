@@ -61,16 +61,16 @@ function Login() {
 
 
     return (
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div >
+        <div className="page">
+            <h1 className="page-title">Login</h1>
+            <form className="form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label>
                         Email:
                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </label>
                 </div>
-                <div>
+                <div className="field">
                     <label>
                         Password:
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />

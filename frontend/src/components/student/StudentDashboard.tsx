@@ -26,26 +26,33 @@ function StudentDashboard() {
     if(!session.participants.includes(currentUser?.email)) {
       session.participants.push(currentUser?.email);
       localStorage.setItem("sessions", JSON.stringify(sessions));
+      window.dispatchEvent(new Event("sessionsUpdated"));
     }
 
     navigate(`/session/${session.id}`);
   }
 
   return (
-    <div> 
-      <h1>Student Dashboard</h1>
-      <p>Welcome to your dashboard! Here you can view your courses, assignments, and progress.</p>
+    <div className="page"> 
+      <h1 className="page-title">Student Dashboard</h1>
+      <p className="page-subtitle">Welcome to your dashboard! Here you can view your courses, assignments, and progress.</p>
 
-      <h2>Join a Session</h2>
-      <input
-        type="text"
-        placeholder="Enter Session Code"
-        value={joinCode}
-        onChange={(e) => setJoinCode(e.target.value)}
-      />
-      <button onClick={handleJoinSession}>Join Session</button>
+      <div className="panel">
+        <h2 className="panel-title">Join a Session</h2>
+        <div className="stack">
+          <input
+            type="text"
+            placeholder="Enter Session Code"
+            value={joinCode}
+            onChange={(e) => setJoinCode(e.target.value)}
+          />
+          <button onClick={handleJoinSession}>Join Session</button>
+        </div>
+      </div>
 
-      <Student_Details />
+      <div className="panel">
+        <Student_Details />
+      </div>
 
     </div>
   );

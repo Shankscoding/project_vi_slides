@@ -37,10 +37,10 @@ function SignUp() {
         navigate("/login");
     }
     return (
-        <div>
-            <h1>Sign Up</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className="page">
+            <h1 className="page-title">Sign Up</h1>
+            <form className="form" onSubmit={handleSubmit}>
+                <div className="field">
                     <label>
                         Role:
                         <select value={role} onChange={(e)=>setrole(e.target.value as "student" | "teacher")}>
@@ -50,26 +50,26 @@ function SignUp() {
                     </label>
                 </div>
 
-                <div>
+                <div className="field">
                     <label>
                         Name:
                         <input type="text" value={name} onChange={(e)=>setname(e.target.value)} required />
                     </label>
                 </div>
 
-                <div>
+                <div className="field">
                     <label>
                         Email:
                         <input type="email" value={email} onChange={(e)=>setemail(e.target.value)} required />
                     </label>
                 </div>
-                <div>
+                <div className="field">
                     <label>
                         Password:
                         <input type="password" value={password} onChange={(e)=>setpassword(e.target.value)} required />
                     </label>
                 </div>
-                <div>
+                <div className="field">
                     <label>
                         Confirm Password:
                         <input type="password" value={confirmPassword} onChange={(e)=>setconfirmPassword(e.target.value)} required />

@@ -7,6 +7,9 @@ function TeacherSession({ session, questions, setQuestions }: any) {
         return <Navigate to="/login" />;
     }
 
+
+    const totalParticipants = session.participants ? session.participants.length : 0;
+
     const [reply, setReply] = useState<{[key: number]: string}>({});
 
     const handlereply=(id:number)=>{
@@ -16,46 +19,42 @@ function TeacherSession({ session, questions, setQuestions }: any) {
         }
         const updatedQuestions = questions.map((q: any) => {
             if(q.id === id) {
-                return {...q, answers: reply[id] };
+                return { ...q, answers: [...(q.answers || []), reply[id].trim()] };
             }
             return q;
         });
 
         setQuestions(updatedQuestions);
-
-        const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
-
-        const updatedSessions = sessions.map((s: any) => {
-            if(s.id === session.id) {
-                return {...s, questions: updatedQuestions };
-            }
-            return s;
-        });
-
-        localStorage.setItem("sessions", JSON.stringify(updatedSessions));
         setReply((prev) => ({ ...prev, [id]: "" }));
     }   
 
     return (
-        <div>
+        <div className="panel stack">
             <h2>Teacher Session</h2>
+            <h2>Room ID: {session.id}</h2>
+            <h3>Total Participants: {totalParticipants}</h3>
             <h3>Questions:</h3>
-            <ul>
+            <ul className="list">
                 {questions.map((q: any) => (
-                    <li key={q.id}>
+                    <li className="list-item" key={q.id}>
                         <p>{q.text} - <i>asked by {q.askedBy}</i></p>
-                        {q.answers ? (
-                            <p>
-                                <b>Answer:</b> {q.answers.map((line: string, index: number) => (
-                                    <span key={index}>{line}<br/></span>
+                        {q.answers && q.answers.length > 0 && (
+                            <div className="panel" style={{ marginTop: "8px" }}>
+                                <b>Answers:</b>
+                                {q.answers.map((answer: string, index: number) => (
+                                    <p key={index}>{answer}</p>
                                 ))}
-                            </p>
-                        ) : (
-                            <div>
-                                <input type="text" value={reply[q.id] || ""} onChange={(e) => setReply((prev) => ({ ...prev, [q.id]: e.target.value }))} placeholder="Type your answer..." />
-                                <button onClick={() => handlereply(q.id)} disabled={!reply[q.id]?.trim()}>Submit Answer</button>   
                             </div>
                         )}
+                        <div className="stack" style={{ marginTop: "8px" }}>
+                            <input
+                                type="text"
+                                value={reply[q.id] || ""}
+                                onChange={(e) => setReply((prev) => ({ ...prev, [q.id]: e.target.value }))}
+                                placeholder="Type your answer..."
+                            />
+                            <button onClick={() => handlereply(q.id)} disabled={!reply[q.id]?.trim()}>Reply</button>
+                        </div>
                     </li>
                 ))} 
             </ul>
