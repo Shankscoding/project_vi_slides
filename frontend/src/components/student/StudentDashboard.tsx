@@ -1,54 +1,64 @@
 import Student_Details from "./Student_Details";
 import StudentHistory from "./StudentHistory";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-interface User {
-    name: string;
-    email: string;
-    role: "student" | "teacher";
-}
+import { getCurrentUser, getSessions, setSessions } from "../../lib/storage";
+import type { SessionRecord, User } from "../../types/models";
 
 function StudentDashboard() {
   
   const navigate = useNavigate();
   const [joinCode, setJoinCode] = useState("");
-  const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null") as User | null;
+  const [joinCodeError, setJoinCodeError] = useState("");
+  const [joinFeedback, setJoinFeedback] = useState("");
+  const [isJoining, setIsJoining] = useState(false);
+  const currentUser = getCurrentUser() as User | null;
 
   if (!currentUser || currentUser.role !== "student") {
-    return <Navigate to="/login" />;
+    return null;
   }
 
   const handleJoinSession = () => {
-    if (!joinCode.trim()) {return alert("Please enter a session code");}
-
-    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+    setJoinCodeError("");
+    setJoinFeedback("");
     const normalizedCode = joinCode.trim().toUpperCase();
-    const session = sessions.find((s: any) => s.id === normalizedCode);
+
+    if (!normalizedCode) {
+      setJoinCodeError("Session code is required.");
+      return;
+    }
+
+    if (!/^[A-Z0-9]{6}$/.test(normalizedCode)) {
+      setJoinCodeError("Session code must be 6 letters or numbers.");
+      return;
+    }
+
+    setIsJoining(true);
+
+    const sessions = getSessions();
+    const session = sessions.find((s) => s.id === normalizedCode);
 
     if(!session) {
-      return alert("Session not found. Please check the code and try again.");
+      setJoinCodeError("Session not found. Check the code and try again.");
+      setIsJoining(false);
+      return;
     }
 
     if (session.status === "ended") {
-      return alert("This session has ended.");
+      setJoinCodeError("This session has already ended.");
+      setIsJoining(false);
+      return;
     }
 
-    const updatedSessions = sessions.map((s: any) => {
+    const updatedSessions: SessionRecord[] = sessions.map((s) => {
       if (s.id !== normalizedCode) {
         return s;
       }
 
-      const currentEnrolledParticipants = Array.isArray(s.enrolledParticipants)
-        ? s.enrolledParticipants
-        : Array.isArray(s.participants)
-        ? s.participants
-        : [];
+      const currentEnrolledParticipants = s.enrolledParticipants;
 
       if (currentEnrolledParticipants.includes(currentUser.email)) {
-        return {
-          ...s,
-          enrolledParticipants: currentEnrolledParticipants
-        };
+        return s;
       }
 
       return {
@@ -57,8 +67,9 @@ function StudentDashboard() {
       };
     });
 
-    localStorage.setItem("sessions", JSON.stringify(updatedSessions));
-    window.dispatchEvent(new Event("sessionsUpdated"));
+    setSessions(updatedSessions);
+    setJoinFeedback("Session joined successfully.");
+    setIsJoining(false);
 
     navigate(`/session/${session.id}`);
   }
@@ -66,18 +77,24 @@ function StudentDashboard() {
   return (
     <div className="page"> 
       <h1 className="page-title">Student Dashboard</h1>
-      <p className="page-subtitle">Welcome to your dashboard! Here you can view your courses, assignments, and progress.</p>
+      <p className="page-subtitle">Join live sessions, track your participation history, and stay aligned with classroom flow.</p>
 
       <div className="panel">
-        <h2 className="panel-title">Join a Session</h2>
+        <h2 className="section-title">Join a Session</h2>
         <div className="stack">
           <input
             type="text"
             placeholder="Enter Session Code"
             value={joinCode}
-            onChange={(e) => setJoinCode(e.target.value)}
+            maxLength={6}
+            onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+            aria-invalid={Boolean(joinCodeError)}
           />
-          <button onClick={handleJoinSession}>Join Session</button>
+          {joinCodeError && <p className="field-error">{joinCodeError}</p>}
+          {joinFeedback && <p className="field-success">{joinFeedback}</p>}
+          <div className="cta-row">
+            <button onClick={handleJoinSession} disabled={isJoining}>{isJoining ? "Joining..." : "Join Session"}</button>
+          </div>
         </div>
       </div>
 

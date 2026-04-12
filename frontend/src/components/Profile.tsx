@@ -1,9 +1,10 @@
 import { Navigate } from "react-router-dom";
 import StudentProfile from "./student/StudentProfile";
 import TeacherProfile from "./teacher/TeacherProfile";
+import { getCurrentUser } from "../lib/storage";
 
 function Profile() {
-    const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+    const currentUser = getCurrentUser();
 
     if (!currentUser) {
         return <Navigate to="/login" replace />;

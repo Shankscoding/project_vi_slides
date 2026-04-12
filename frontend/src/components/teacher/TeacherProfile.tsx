@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { clearCurrentUser, getCurrentUser } from "../../lib/storage";
 
 function TeacherProfile() {
     const navigate = useNavigate();
-    const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null");
+    const currentUser = getCurrentUser();
 
     useEffect(() => {
         if (!currentUser || currentUser.role !== "teacher") {
@@ -12,7 +13,7 @@ function TeacherProfile() {
     }, [currentUser, navigate]);
 
     const handleLogout = () => {
-        sessionStorage.removeItem("currentUser");
+        clearCurrentUser();
         navigate("/login", { replace: true });
     };
 
@@ -23,13 +24,15 @@ function TeacherProfile() {
     return (
         <div className="page">
             <h1 className="page-title">Teacher Profile</h1>
-            <div className="stack">
-                <p>Name: {currentUser.name}</p>
-                <p>Email: {currentUser.email}</p>
-                <p>Role: {currentUser.role}</p>
+            <div className="panel">
+                <div className="meta-grid">
+                    <p>Name: <b>{currentUser.name}</b></p>
+                    <p>Email: <b>{currentUser.email}</b></p>
+                    <p>Role: <span className="pill">{currentUser.role}</span></p>
+                </div>
             </div>
             <div className="cta-row" style={{ marginTop: "14px" }}>
-                <button onClick={() => navigate("/teacher")}>Back to Dashboard</button>
+                <button className="ghost-btn" onClick={() => navigate("/teacher")}>Back to Dashboard</button>
                 <button onClick={handleLogout}>Logout</button>
             </div>
         </div>

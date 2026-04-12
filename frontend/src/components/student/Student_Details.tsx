@@ -1,23 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-interface User {
-    name: string;
-    email: string;
-    password: string;   
-    role: "student" | "teacher";
-}
+import { getCurrentUser, getSessions } from '../../lib/storage';
+
 function Student_Details() {
     const navigate = useNavigate();
-    const currentUser = JSON.parse(sessionStorage.getItem("currentUser") || "null") as User | null;
-    const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+    const currentUser = getCurrentUser();
+    const sessions = getSessions();
     const totalEnrolledSessions = currentUser
-        ? sessions.filter((session: any) => {
-            const enrolledParticipants = Array.isArray(session.enrolledParticipants)
-                ? session.enrolledParticipants
-                : Array.isArray(session.participants)
-                ? session.participants
-                : [];
-            return enrolledParticipants.includes(currentUser.email);
+        ? sessions.filter((session) => {
+            return session.enrolledParticipants.includes(currentUser.email);
         }).length
         : 0;
     useEffect(() => {
@@ -32,14 +23,12 @@ function Student_Details() {
     return (
         <div className="stack">
             <div className="stack">
-                
-
                 <h2 className="panel-title">Total Enrolled Sessions: {totalEnrolledSessions}</h2>
-                
-                <h2 className="panel-title">Notes</h2>
+                <p className="pill">Progress Overview</p>
+                <p className="muted">You can rejoin active sessions anytime from your history section below.</p>
 
             </div>
-            <button onClick={() => navigate("/profile")}>
+            <button className="ghost-btn" onClick={() => navigate("/profile")}>
                 View Profile
             </button>
         </div>

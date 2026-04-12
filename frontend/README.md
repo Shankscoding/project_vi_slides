@@ -1,73 +1,67 @@
-# React + TypeScript + Vite
+# Vi-SlideS Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This frontend is a role-based classroom interface for students and teachers.
+It is designed to be simple to present, easy to extend, and clear for mentor review.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React + TypeScript
+- Vite
+- Vanilla CSS design system in `src/index.css`
+- Browser storage for current prototype data (`sessionStorage` + `localStorage`)
 
-## React Compiler
+## Frontend Flow
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. User signs up or logs in as `student` or `teacher`.
+2. Central route guards redirect users to the correct dashboard.
+3. Teacher creates a session with a unique code.
+4. Student joins using the code and submits questions.
+5. Teacher handles questions in two modes:
+   - `Slides View`: one question at a time
+   - `List View`: all questions in a list
+6. Teacher controls session state:
+   - `Start`
+   - `Pause`
+   - `End`
+7. After ending, teacher sees a `Session Summary` page.
 
-## Expanding the ESLint configuration
+## Main Features Implemented
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Protected/public route pattern (`ProtectedRoute`, `PublicOnlyRoute`)
+- Role-specific dashboards
+- Student session join with validation
+- Anonymous question submission option
+- Teacher reply workflow with inline validation
+- Session status control (live, paused, ended)
+- Session history for both teacher and student
+- Search, filter, and pagination in history pages
+- Mentor-friendly summary page after session end
+- Responsive premium UI system
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Project Structure
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- `src/components/auth`: route guards
+- `src/components/student`: student dashboard, history, profile
+- `src/components/teacher`: teacher dashboard, history, profile
+- `src/components/SessionRoom`: room, student session, teacher session, summary
+- `src/lib/storage.ts`: typed browser-storage helpers
+- `src/types/models.ts`: shared type model
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Run Frontend Locally
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Build check:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run build
 ```
+
+## Notes for Mentor Presentation
+
+- Current version is frontend-first and data is stored in browser storage.
+- The UI and workflows are production-style, while backend and AI integration are planned next.
+- The codebase now uses shared types and centralized guards for maintainability.
