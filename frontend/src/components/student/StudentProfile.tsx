@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearCurrentUser, getCurrentUser } from "../../lib/storage";
+import { clearAuthSession, getCurrentUser } from "../../lib/storage";
 
 function StudentProfile() {
     const navigate = useNavigate();
     const handleLogout = () => {
-        clearCurrentUser();
+        clearAuthSession();
         navigate('/login');
     };
     const currentUser = getCurrentUser();

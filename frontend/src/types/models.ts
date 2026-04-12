@@ -1,10 +1,17 @@
 export type Role = "student" | "teacher";
 
 export interface User {
+    id?: string;
     name: string;
     email: string;
     password?: string;
     role: Role;
+    createdAt?: string;
+}
+
+export interface AuthSession {
+    user: User;
+    token: string;
 }
 
 export interface SessionQuestion {

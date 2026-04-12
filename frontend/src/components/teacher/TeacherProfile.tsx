@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { clearCurrentUser, getCurrentUser } from "../../lib/storage";
+import { clearAuthSession, getCurrentUser } from "../../lib/storage";
 
 function TeacherProfile() {
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ function TeacherProfile() {
     }, [currentUser, navigate]);
 
     const handleLogout = () => {
-        clearCurrentUser();
+        clearAuthSession();
         navigate("/login", { replace: true });
     };
 

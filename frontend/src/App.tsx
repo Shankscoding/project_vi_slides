@@ -1,8 +1,10 @@
 import {Routes,Route } from "react-router-dom";
-import {lazy,Suspense} from "react";
+import {lazy,Suspense, useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import PublicOnlyRoute from "./components/auth/PublicOnlyRoute";
+import { ApiError, me } from "./lib/authApi";
+import { clearAuthSession, getAuthToken, setAuthSession } from "./lib/storage";
 
 const Home=lazy(()=>import("./components/Home"));
 const Login=lazy(()=>import("./components/Login"));
@@ -16,6 +18,47 @@ const SessionSummary=lazy(async()=>({ default: (await import("./components/Sessi
 
 function App(){
   const location = useLocation();
+  const [isAuthReady, setIsAuthReady] = useState(false);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const restoreSession = async () => {
+      const token = getAuthToken();
+
+      if (!token) {
+        if (isActive) {
+          setIsAuthReady(true);
+        }
+        return;
+      }
+
+      try {
+        const user = await me(token);
+        if (isActive) {
+          setAuthSession({ user, token });
+        }
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+          clearAuthSession();
+        }
+      } finally {
+        if (isActive) {
+          setIsAuthReady(true);
+        }
+      }
+    };
+
+    restoreSession();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  if (!isAuthReady) {
+    return <div className="page"><h1 className="page-title">Loading...</h1><p className="page-subtitle">Preparing authentication.</p></div>;
+  }
 
   return (
       <Suspense fallback={<div className="page"><h1 className="page-title">Loading...</h1><p className="page-subtitle">Preparing the workspace.</p></div>}>

@@ -10,18 +10,18 @@ interface StudentSessionProps {
 }
 
 function StudentSession({session, questions,setQuestions}: StudentSessionProps) {
-    const currentUser = getCurrentUser();
-    if (!currentUser || currentUser.role !== "student") {
-        return <Navigate to="/login" />;
-    }
-
     const navigate = useNavigate();
+    const currentUser = getCurrentUser();
 
     const [question,setquestion] = useState("");
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [questionError, setQuestionError] = useState("");
     const isSessionEnded = session?.status === "ended";
     const isSessionPaused = session?.status === "paused";
+
+    if (!currentUser || currentUser.role !== "student") {
+        return <Navigate to="/login" />;
+    }
 
     const handleAskQuestion = () => {
         setQuestionError("");

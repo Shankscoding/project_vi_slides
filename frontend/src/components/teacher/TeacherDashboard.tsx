@@ -123,6 +123,17 @@ function TeacherDashboard() {
           <h1 className="page-title">Teacher Dashboard</h1>
           <h2 className="page-subtitle">Welcome, {currentUser?.name}</h2>
 
+          <div className="stat-grid">
+            <div className="stat-card">
+              <p className="stat-label">Enrolled Students</p>
+              <p className="stat-value">{enrolledParticipants}</p>
+            </div>
+            <div className="stat-card">
+              <p className="stat-label">Live Presence</p>
+              <p className="stat-value">{liveParticipants}</p>
+            </div>
+          </div>
+
 
           <div className="panel stack">
             <h2 className="section-title">Create New Session</h2>

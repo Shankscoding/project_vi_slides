@@ -11,11 +11,8 @@ interface TeacherSessionProps {
 }
 
 function TeacherSession({ session, questions, setQuestions }: TeacherSessionProps) {
-    const currentUser = getCurrentUser();
     const navigate = useNavigate();
-    if (!currentUser || currentUser.role !== "teacher") {
-        return <Navigate to="/login" />;
-    }
+    const currentUser = getCurrentUser();
 
 
     const totalEnrolledParticipants = session.enrolledParticipants.length;
@@ -25,6 +22,10 @@ function TeacherSession({ session, questions, setQuestions }: TeacherSessionProp
     const [replyError, setReplyError] = useState("");
     const [viewMode, setViewMode] = useState<"slides" | "list">("slides");
     const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+
+    if (!currentUser || currentUser.role !== "teacher") {
+        return <Navigate to="/login" />;
+    }
 
     const sortedQuestions = useMemo(() => {
         return [...questions].sort((a, b) => a.id - b.id);

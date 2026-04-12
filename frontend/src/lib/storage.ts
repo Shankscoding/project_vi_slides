@@ -1,7 +1,12 @@
-import type { SessionRecord, User } from "../types/models";
+import type { AuthSession, SessionRecord, User } from "../types/models";
+
+const AUTH_USER_KEY = "currentUser";
+const AUTH_TOKEN_KEY = "authToken";
+const LEGACY_USERS_KEY = "users";
+const SESSIONS_KEY = "sessions";
 
 export function getCurrentUser(): User | null {
-    const raw = sessionStorage.getItem("currentUser");
+    const raw = sessionStorage.getItem(AUTH_USER_KEY);
     if (!raw) {
         return null;
     }
@@ -13,8 +18,31 @@ export function getCurrentUser(): User | null {
     }
 }
 
-export function getUsers(): User[] {
-    const raw = sessionStorage.getItem("users");
+export function getAuthToken(): string {
+    return sessionStorage.getItem(AUTH_TOKEN_KEY) || "";
+}
+
+export function setAuthSession(session: AuthSession): void {
+    sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(session.user));
+    sessionStorage.setItem(AUTH_TOKEN_KEY, session.token);
+}
+
+export function setCurrentUser(user: User): void {
+    sessionStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+}
+
+export function clearCurrentUser(): void {
+    sessionStorage.removeItem(AUTH_USER_KEY);
+    sessionStorage.removeItem(AUTH_TOKEN_KEY);
+}
+
+export function clearAuthSession(): void {
+    sessionStorage.removeItem(AUTH_USER_KEY);
+    sessionStorage.removeItem(AUTH_TOKEN_KEY);
+}
+
+export function getLegacyUsers(): User[] {
+    const raw = sessionStorage.getItem(LEGACY_USERS_KEY);
     if (!raw) {
         return [];
     }
@@ -26,20 +54,8 @@ export function getUsers(): User[] {
     }
 }
 
-export function setUsers(users: User[]): void {
-    sessionStorage.setItem("users", JSON.stringify(users));
-}
-
-export function setCurrentUser(user: User): void {
-    sessionStorage.setItem("currentUser", JSON.stringify(user));
-}
-
-export function clearCurrentUser(): void {
-    sessionStorage.removeItem("currentUser");
-}
-
 export function getSessions(): SessionRecord[] {
-    const raw = localStorage.getItem("sessions");
+    const raw = localStorage.getItem(SESSIONS_KEY);
     if (!raw) {
         return [];
     }
@@ -77,6 +93,6 @@ export function getSessions(): SessionRecord[] {
 }
 
 export function setSessions(sessions: SessionRecord[]): void {
-    localStorage.setItem("sessions", JSON.stringify(sessions));
+    localStorage.setItem(SESSIONS_KEY, JSON.stringify(sessions));
     window.dispatchEvent(new Event("sessionsUpdated"));
 }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { getUsers, setCurrentUser } from '../lib/storage';
+import { login } from '../lib/authApi';
+import { setAuthSession } from '../lib/storage';
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -35,27 +36,31 @@ function Login() {
         return isValid;
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate()) {
             return;
         }
 
         setIsSubmitting(true);
-        const cleanEmail = email.trim().toLowerCase();
-        const users = getUsers();
-        const user = users.find((u) => u.email.toLowerCase() === cleanEmail && u.password === password);
+        try {
+            const session = await login({
+                email: email.trim().toLowerCase(),
+                password
+            });
 
-        if (!user) {
-            setSubmitError('Invalid email or password.');
+            setAuthSession(session);
+
+            if (session.user.role === 'student') {
+                navigate('/student');
+            } else {
+                navigate('/teacher');
+            }
+        } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : 'Login failed.');
+        } finally {
             setIsSubmitting(false);
-            return;
         }
-
-        setCurrentUser(user);
-        setIsSubmitting(false);
-        if (user.role === 'student') navigate('/student');
-        else navigate('/teacher');
     };
 
 
@@ -68,14 +73,14 @@ function Login() {
                 <div className="field">
                     <label>
                         Email:
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={Boolean(emailError)} />
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} aria-invalid={Boolean(emailError)} autoComplete="email" />
                     </label>
                     {emailError && <p className="field-error">{emailError}</p>}
                 </div>
                 <div className="field">
                     <label>
                         Password:
-                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={Boolean(passwordError)} />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} aria-invalid={Boolean(passwordError)} autoComplete="current-password" />
                     </label>
                     {passwordError && <p className="field-error">{passwordError}</p>}
                 </div>

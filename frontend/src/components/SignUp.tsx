@@ -1,7 +1,7 @@
-import {  useState } from "react";
-import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUsers, setUsers } from "../lib/storage";
+import { signup } from "../lib/authApi";
+import { setAuthSession } from "../lib/storage";
 
 function SignUp() {
     const [name,setname]=useState("");
@@ -54,29 +54,34 @@ function SignUp() {
         return isValid;
     };
     
-    const handleSubmit=(e:React.FormEvent)=>{
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(!validate()){
+        if (!validate()) {
             return;
         }
 
         setIsSubmitting(true);
-        const cleanName = name.trim();
-        const cleanEmail = email.trim().toLowerCase();
-        const newUser = { name: cleanName, email: cleanEmail, password, role };
-        const users = getUsers();
-        const exists = users.some((u) => u.email.toLowerCase() === cleanEmail);
-        if (exists) {
-            setSubmitError("A user with this email already exists.");
+        try {
+            const session = await signup({
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                password,
+                confirmPassword,
+                role
+            });
+
+            setAuthSession(session);
+
+            if (session.user.role === "student") {
+                navigate("/student");
+            } else {
+                navigate("/teacher");
+            }
+        } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : "Sign up failed.");
+        } finally {
             setIsSubmitting(false);
-            return;
         }
-
-        users.push(newUser);
-        setUsers(users);
-        setIsSubmitting(false);
-
-        navigate("/login");
     }
     return (
         <div className="page">
@@ -96,7 +101,7 @@ function SignUp() {
                 <div className="field">
                     <label>
                         Name:
-                        <input type="text" value={name} onChange={(e)=>setname(e.target.value)} aria-invalid={Boolean(nameError)} />
+                        <input type="text" value={name} onChange={(e)=>setname(e.target.value)} aria-invalid={Boolean(nameError)} autoComplete="name" />
                     </label>
                     {nameError && <p className="field-error">{nameError}</p>}
                 </div>
@@ -104,21 +109,21 @@ function SignUp() {
                 <div className="field">
                     <label>
                         Email:
-                        <input type="email" value={email} onChange={(e)=>setemail(e.target.value)} aria-invalid={Boolean(emailError)} />
+                        <input type="email" value={email} onChange={(e)=>setemail(e.target.value)} aria-invalid={Boolean(emailError)} autoComplete="email" />
                     </label>
                     {emailError && <p className="field-error">{emailError}</p>}
                 </div>
                 <div className="field">
                     <label>
                         Password:
-                        <input type="password" value={password} onChange={(e)=>setpassword(e.target.value)} aria-invalid={Boolean(passwordError)} />
+                        <input type="password" value={password} onChange={(e)=>setpassword(e.target.value)} aria-invalid={Boolean(passwordError)} autoComplete="new-password" />
                     </label>
                     {passwordError && <p className="field-error">{passwordError}</p>}
                 </div>
                 <div className="field">
                     <label>
                         Confirm Password:
-                        <input type="password" value={confirmPassword} onChange={(e)=>setconfirmPassword(e.target.value)} aria-invalid={Boolean(confirmPasswordError)} />
+                        <input type="password" value={confirmPassword} onChange={(e)=>setconfirmPassword(e.target.value)} aria-invalid={Boolean(confirmPasswordError)} autoComplete="new-password" />
                     </label>
                     {confirmPasswordError && <p className="field-error">{confirmPasswordError}</p>}
                 </div>

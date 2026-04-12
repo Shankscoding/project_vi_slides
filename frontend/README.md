@@ -8,28 +8,31 @@ It is designed to be simple to present, easy to extend, and clear for mentor rev
 - React + TypeScript
 - Vite
 - Vanilla CSS design system in `src/index.css`
-- Browser storage for current prototype data (`sessionStorage` + `localStorage`)
+- Browser storage for session/classroom state (`sessionStorage` + `localStorage`)
+- Backend auth session with JWT token + `/api/auth/me`
 
 ## Frontend Flow
 
 1. User signs up or logs in as `student` or `teacher`.
 2. Central route guards redirect users to the correct dashboard.
-3. Teacher creates a session with a unique code.
-4. Student joins using the code and submits questions.
-5. Teacher handles questions in two modes:
+3. Backend validates the login session and restores it on app start.
+4. Teacher creates a session with a unique code.
+5. Student joins using the code and submits questions.
+6. Teacher handles questions in two modes:
    - `Slides View`: one question at a time
    - `List View`: all questions in a list
-6. Teacher controls session state:
+7. Teacher controls session state:
    - `Start`
    - `Pause`
    - `End`
-7. After ending, teacher sees a `Session Summary` page.
+8. After ending, teacher sees a `Session Summary` page.
 
 ## Main Features Implemented
 
 - Protected/public route pattern (`ProtectedRoute`, `PublicOnlyRoute`)
 - Role-specific dashboards
 - Student session join with validation
+- Backend-authenticated signup/login with hashed passwords
 - Anonymous question submission option
 - Teacher reply workflow with inline validation
 - Session status control (live, paused, ended)
@@ -45,6 +48,7 @@ It is designed to be simple to present, easy to extend, and clear for mentor rev
 - `src/components/teacher`: teacher dashboard, history, profile
 - `src/components/SessionRoom`: room, student session, teacher session, summary
 - `src/lib/storage.ts`: typed browser-storage helpers
+- `src/lib/authApi.ts`: backend auth client
 - `src/types/models.ts`: shared type model
 
 ## Run Frontend Locally
@@ -62,6 +66,6 @@ npm run build
 
 ## Notes for Mentor Presentation
 
-- Current version is frontend-first and data is stored in browser storage.
-- The UI and workflows are production-style, while backend and AI integration are planned next.
-- The codebase now uses shared types and centralized guards for maintainability.
+- Authentication is backend-backed and password hashing happens in MongoDB through the backend model.
+- Classroom/session data still uses browser storage for now, which keeps the prototype simple to explain.
+- The codebase uses shared types, centralized guards, and a small auth API layer so the flow stays readable.
