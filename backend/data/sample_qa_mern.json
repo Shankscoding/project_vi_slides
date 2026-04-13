@@ -1,0 +1,202 @@
+[
+  {
+    "question": "What is the MERN stack?",
+    "answer": "MERN stack is a full-stack JavaScript framework consisting of MongoDB (database), Express.js (backend framework), React.js (frontend library), and Node.js (runtime environment). It allows developers to use JavaScript throughout the entire application stack."
+  },
+  {
+    "question": "What is MongoDB and how does it work?",
+    "answer": "MongoDB is a NoSQL document-oriented database that stores data in flexible, JSON-like documents called BSON. It uses collections instead of tables and documents instead of rows, making it ideal for applications with evolving data requirements."
+  },
+  {
+    "question": "What is Express.js and why use it?",
+    "answer": "Express.js is a minimal and flexible Node.js web application framework that provides robust features for web and mobile applications. It simplifies routing, middleware integration, and HTTP request/response handling, making backend development faster and more organized."
+  },
+  {
+    "question": "What are React components?",
+    "answer": "React components are independent, reusable pieces of code that return HTML elements. They can be functional (using hooks) or class-based, and they manage their own state and lifecycle, allowing developers to build complex UIs from simple building blocks."
+  },
+  {
+    "question": "What is Node.js?",
+    "answer": "Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine that allows JavaScript to run outside the browser. It enables server-side JavaScript development, making it possible to build full-stack applications using a single programming language."
+  },
+  {
+    "question": "What is TypeScript and why use it with React?",
+    "answer": "TypeScript is a statically typed superset of JavaScript that compiles to plain JavaScript. With React, it provides type safety, better IDE support, catch errors at compile time, and improves code maintainability and developer experience."
+  },
+  {
+    "question": "What are React hooks?",
+    "answer": "React hooks are functions that allow functional components to use state and lifecycle features. Common hooks include useState for state management, useEffect for side effects, useContext for context API, and useCallback/useMemo for performance optimization."
+  },
+  {
+    "question": "How does MongoDB connect to a Node.js application?",
+    "answer": "MongoDB connects to Node.js using the official MongoDB driver or Mongoose ODM. The connection typically uses a connection string like 'mongodb://localhost:27017/databaseName' and establishes a connection pool for efficient database operations."
+  },
+  {
+    "question": "What is JSX in React?",
+    "answer": "JSX (JavaScript XML) is a syntax extension for JavaScript that allows writing HTML-like code in JavaScript files. It makes React components more readable and easier to write, and gets compiled to regular JavaScript function calls."
+  },
+  {
+    "question": "What are middleware functions in Express?",
+    "answer": "Middleware functions in Express are functions that have access to the request (req), response (res), and next middleware function. They can modify requests/responses, end the request-response cycle, or pass control to the next middleware using next()."
+  },
+  {
+    "question": "What is the difference between SQL and NoSQL databases?",
+    "answer": "SQL databases are relational with structured schemas, tables, and relationships, while NoSQL databases like MongoDB are non-relational with flexible schemas. NoSQL databases scale horizontally better and handle unstructured data more effectively."
+  },
+  {
+    "question": "What is React Router?",
+    "answer": "React Router is a standard library for routing in React applications. It enables navigation between different components, handles URL parameters, and provides declarative routing configuration for single-page applications."
+  },
+  {
+    "question": "What are RESTful APIs?",
+    "answer": "RESTful APIs are architectural style for designing networked applications using HTTP methods (GET, POST, PUT, DELETE). They follow principles like statelessness, resource-based URLs, and standard HTTP status codes for building scalable web services."
+  },
+  {
+    "question": "What is Mongoose and why use it?",
+    "answer": "Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js. It provides schema validation, casting, business logic hooks, and makes working with MongoDB more object-oriented and type-safe."
+  },
+  {
+    "question": "What are React props?",
+    "answer": "Props (properties) are read-only attributes passed from parent to child components in React. They allow data to flow down the component tree and enable component reusability by customizing component behavior and appearance."
+  },
+  {
+    "question": "What is the virtual DOM in React?",
+    "answer": "The virtual DOM is a JavaScript representation of the real DOM. React uses it to efficiently update the UI by comparing the current virtual DOM with the new one, calculating minimal changes, and updating only the necessary DOM elements."
+  },
+  {
+    "question": "What are TypeScript interfaces?",
+    "answer": "TypeScript interfaces define the structure of objects, specifying what properties and methods an object should have. They provide compile-time type checking and serve as contracts for code, improving type safety and documentation."
+  },
+  {
+    "question": "What is CORS in web development?",
+    "answer": "CORS (Cross-Origin Resource Sharing) is a security feature that allows servers to specify which origins can access their resources. In Express, cors middleware is used to handle CORS policies and enable cross-origin requests."
+  },
+  {
+    "question": "What are React state and props?",
+    "answer": "State is mutable data managed within a component that can change over time, while props are immutable data passed from parent components. State triggers re-renders when updated, while props are used for component configuration."
+  },
+  {
+    "question": "What is npm and package.json?",
+    "answer": "npm (Node Package Manager) is the default package manager for Node.js. package.json is a configuration file that lists project dependencies, scripts, metadata, and other project configuration, enabling reproducible builds."
+  },
+  {
+    "question": "What are async/await in JavaScript?",
+    "answer": "async/await is syntactic sugar for working with promises in JavaScript. async functions always return a promise, and await pauses execution until the promise resolves, making asynchronous code look and behave like synchronous code."
+  },
+  {
+    "question": "What is the React component lifecycle?",
+    "answer": "React component lifecycle refers to the series of methods that are invoked at different stages of a component's existence. In class components: mounting, updating, and unmounting. In functional components: useEffect hook handles lifecycle events."
+  },
+  {
+    "question": "What are environment variables in Node.js?",
+    "answer": "Environment variables are configuration values stored outside the code, typically in .env files. They help manage different settings for development, testing, and production environments without hardcoding sensitive information."
+  },
+  {
+    "question": "What is JWT authentication?",
+    "answer": "JWT (JSON Web Token) is a compact, URL-safe means of representing claims between parties. In web applications, it's commonly used for authentication and information exchange, containing user data that's cryptographically signed."
+  },
+  {
+    "question": "What are React custom hooks?",
+    "answer": "Custom hooks are JavaScript functions that start with 'use' and can call other hooks. They allow extracting component logic into reusable functions, promoting code reuse and separation of concerns in React applications."
+  },
+  {
+    "question": "What is MongoDB aggregation?",
+    "answer": "MongoDB aggregation is a framework for data processing and analysis. It uses a pipeline approach where documents pass through multiple stages like $match, $group, $sort, allowing complex data transformations and analytics."
+  },
+  {
+    "question": "What are TypeScript types vs interfaces?",
+    "answer": "Types and interfaces in TypeScript both define shapes, but interfaces can be extended and implemented, while types can use unions, intersections, and primitives. Interfaces are better for object shapes, types for unions and computed types."
+  },
+  {
+    "question": "What is Express routing?",
+    "answer": "Express routing maps HTTP requests to specific handler functions based on URL patterns and HTTP methods. It supports route parameters, middleware, and nested routes, enabling organized API endpoint structure."
+  },
+  {
+    "question": "What are React context and useContext?",
+    "answer": "React Context provides a way to pass data through the component tree without prop drilling. useContext hook allows functional components to consume context values, making global state management easier."
+  },
+  {
+    "question": "What is MongoDB indexing?",
+    "answer": "MongoDB indexes are special data structures that store a small portion of the collection's data in an easy-to-traverse form. They improve query performance by allowing the database to find documents more efficiently without scanning entire collections."
+  },
+  {
+    "question": "What are TypeScript generics?",
+    "answer": "TypeScript generics provide a way to create reusable components that work with multiple types rather than a single type. They allow creating functions, classes, and interfaces that are type-safe yet flexible."
+  },
+  {
+    "question": "What is React Redux?",
+    "answer": "React Redux is the official Redux binding for React. It provides a centralized state management solution with predictable state updates, time-travel debugging, and efficient re-rendering through connect() hook and useSelector/useDispatch hooks."
+  },
+  {
+    "question": "What are MongoDB schemas with Mongoose?",
+    "answer": "Mongoose schemas define the structure, default values, validators, and other properties of MongoDB documents. They provide data validation, casting, and business logic hooks, ensuring data integrity and consistency."
+  },
+  {
+    "question": "What is Express middleware chaining?",
+    "answer": "Express middleware chains are sequences of middleware functions that process requests in order. Each middleware can modify the request/response and must call next() to pass control to the next middleware in the chain."
+  },
+  {
+    "question": "What are React controlled components?",
+    "answer": "Controlled components in React are form elements whose values are controlled by React state. The component's state serves as the single source of truth, and input changes update the state through event handlers."
+  },
+  {
+    "question": "What is Node.js event loop?",
+    "answer": "Node.js event loop is a mechanism that allows Node.js to perform non-blocking I/O operations despite being single-threaded. It processes events in a loop, handling callbacks and managing asynchronous operations efficiently."
+  },
+  {
+    "question": "What are TypeScript decorators?",
+    "answer": "TypeScript decorators are special declarations that can be attached to classes, methods, accessors, properties, or parameters. They are used for metaprogramming, adding annotations, and modifying class behavior in a declarative way."
+  },
+  {
+    "question": "What is React Suspense?",
+    "answer": "React Suspense is a feature that lets components wait for something before rendering. It's commonly used for code splitting and data fetching, showing fallback content while waiting for async operations to complete."
+  },
+  {
+    "question": "What is MongoDB sharding?",
+    "answer": "MongoDB sharding is a method for distributing data across multiple machines. It allows horizontal scaling by splitting large datasets into smaller chunks and distributing them across different shards, improving performance and capacity."
+  },
+  {
+    "question": "What are TypeScript utility types?",
+    "answer": "TypeScript utility types are built-in types that help manipulate and transform types. Common examples include Partial<T>, Required<T>, Pick<T, K>, Omit<T, K>, and Record<K, V>, which provide powerful type transformations."
+  },
+  {
+    "question": "What is Express error handling?",
+    "answer": "Express error handling uses middleware functions with four arguments (err, req, res, next). It catches errors throughout the application and provides centralized error handling, logging, and consistent error responses."
+  },
+  {
+    "question": "What are React portals?",
+    "answer": "React portals provide a way to render children into a DOM node that exists outside the component's DOM hierarchy. They're useful for modals, tooltips, and dropdowns that need to break out of z-index constraints."
+  },
+  {
+    "question": "What is Node.js streams?",
+    "answer": "Node.js streams are objects that let you read data from a source or write data to a destination in a continuous fashion. They handle data efficiently in chunks, reducing memory usage for large files and network operations."
+  },
+  {
+    "question": "What is MongoDB replication?",
+    "answer": "MongoDB replication provides data redundancy and high availability through replica sets. It maintains multiple copies of data across different servers, allowing automatic failover and read scaling for improved reliability."
+  },
+  {
+    "question": "What are TypeScript modules?",
+    "answer": "TypeScript modules organize code into reusable units with their own scope. They support import/export statements, namespace declarations, and help manage dependencies and code organization in large applications."
+  },
+  {
+    "question": "What is Express session management?",
+    "answer": "Express session management tracks user state across multiple requests using middleware like express-session. It stores session data server-side and uses cookies to identify users, enabling features like login persistence and shopping carts."
+  },
+  {
+    "question": "What are React error boundaries?",
+    "answer": "React error boundaries are components that catch JavaScript errors in their child component tree, log errors, and display a fallback UI. They prevent crashes from affecting the entire application and improve user experience."
+  },
+  {
+    "question": "What is Node.js clustering?",
+    "answer": "Node.js clustering allows creating multiple worker processes that share server ports. It enables multi-core CPU utilization, improving application performance and scalability by distributing incoming connections across worker processes."
+  },
+  {
+    "question": "What is MongoDB GridFS?",
+    "answer": "MongoDB GridFS is a specification for storing and retrieving large files in MongoDB. It breaks files into chunks and stores them as separate documents, enabling efficient storage and retrieval of files larger than the 16MB BSON document limit."
+  },
+  {
+    "question": "What are TypeScript declaration files?",
+    "answer": "TypeScript declaration files (.d.ts) describe the shape of JavaScript libraries for TypeScript. They provide type information for existing JavaScript code, enabling type checking and IntelliSense when using third-party libraries."
+  }
+]
